@@ -7,6 +7,10 @@ import {
   siteDownloadPath,
   type DownloadOffers,
 } from "@/lib/downloads";
+import {
+  launcherDownloadLabel,
+  launcherSaveAsName,
+} from "@/lib/download-labels";
 
 function detectPlatform(): Platform | null {
   const ua = navigator.userAgent;
@@ -66,14 +70,14 @@ export function DownloadButtons({
             key={id}
             href={siteDownloadPath(id)}
             className={className}
-            download={asset.name}
+            download={launcherSaveAsName(id, asset.name)}
           >
             <span className="block font-display text-lg">
               Download for {PLATFORM_LABEL[id]}
             </span>
             <span className="mt-1 block text-xs opacity-80">
               {recommended ? "Recommended for this device · " : ""}
-              {asset.name}
+              {launcherDownloadLabel(id, asset.name)}
               {asset.size ? ` · ${formatSize(asset.size)}` : ""}
             </span>
           </a>
