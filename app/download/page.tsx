@@ -1,52 +1,42 @@
 import { Suspense } from "react";
 import { DownloadButtons } from "@/components/DownloadButtons";
 import { PageIntro } from "@/components/PageIntro";
+import { toDownloadOffers } from "@/lib/downloads";
 import { getLatestRelease } from "@/lib/github-release";
 import { pageMeta } from "@/lib/metadata";
-import { GITHUB_RELEASES, GITHUB_REPO_URL, LAUNCHER_REPO } from "@/lib/site";
+import { SITE_NAME } from "@/lib/site";
 
 export const metadata = pageMeta({
   title: "Download",
   description:
-    "Download the iCreate launcher for macOS, Windows or Linux. We highlight the build that matches your computer and link to the latest GitHub release.",
+    "Download the iCreate launcher for macOS, Windows or Linux. We highlight the build that matches your computer.",
   path: "/download",
 });
 
 async function ReleasePanel() {
-  const release = await getLatestRelease();
+  const offers = toDownloadOffers(await getLatestRelease());
 
   return (
     <div className="mt-10">
-      {release ? (
+      {offers ? (
         <p className="mb-4 text-sm text-muted">
-          Latest release{" "}
-          <a href={release.htmlUrl} className="text-accent-ink underline">
-            {release.name}
-          </a>
-          {release.publishedAt
-            ? ` · ${new Date(release.publishedAt).toLocaleDateString("en-ZA")}`
+          Latest build <span className="text-ink">{offers.name}</span>
+          {offers.publishedAt
+            ? ` · ${new Date(offers.publishedAt).toLocaleDateString("en-ZA")}`
             : null}
-          . Direct files come from GitHub ({LAUNCHER_REPO}).
+          . Files download from this site — you stay on {SITE_NAME}.
         </p>
       ) : (
         <p className="mb-4 rounded-lg border border-warn/40 bg-sunken p-4 text-sm text-muted">
-          No GitHub release is published yet for{" "}
-          <a href={GITHUB_REPO_URL} className="text-accent-ink underline">
-            {LAUNCHER_REPO}
-          </a>
-          . When the first launcher build is tagged, this page will link the
-          macOS, Windows and Linux files automatically. Until then the buttons
-          open the releases page.
+          No launcher installer is published yet. The buttons below unlock
+          automatically when a macOS, Windows or Linux build is available.
         </p>
       )}
-      <DownloadButtons release={release} />
+      <DownloadButtons offers={offers} />
       <p className="mt-6 text-sm text-faint">
-        Prefer to browse?{" "}
-        <a href={GITHUB_RELEASES} className="underline">
-          All releases on GitHub
-        </a>
-        . Intel and Apple silicon Macs share one universal disk image. Linux
-        users who want a .deb will find it on the same release.
+        Intel and Apple silicon Macs share one universal disk image. On Linux we
+        serve the AppImage by default; a .deb is on the same release when you
+        need a package manager install.
       </p>
     </div>
   );
@@ -64,7 +54,9 @@ export default function DownloadPage() {
       </PageIntro>
       <Suspense
         fallback={
-          <p className="mt-10 text-sm text-muted">Checking GitHub for the latest build…</p>
+          <p className="mt-10 text-sm text-muted">
+            Checking for the latest build…
+          </p>
         }
       >
         <ReleasePanel />
@@ -86,12 +78,9 @@ export default function DownloadPage() {
           Opening unsigned builds
         </h2>
         <p className="mt-2 max-w-3xl text-sm text-muted">
-          The first GitHub releases are not Apple-notarised or Authenticode-signed.
-          macOS Gatekeeper and Windows SmartScreen will warn. Download only from{" "}
-          <a href={GITHUB_RELEASES} className="text-accent-ink underline">
-            iCreativate/icreate-launcher
-          </a>
-          .
+          Early builds are not Apple-notarised or Authenticode-signed. macOS
+          Gatekeeper and Windows SmartScreen will warn. Only install files you
+          downloaded from this {SITE_NAME} download page.
         </p>
         <ul className="mt-4 grid gap-4 text-sm text-muted sm:grid-cols-3">
           <li>

@@ -54,14 +54,6 @@ export function Footer() {
                 About &amp; licences
               </Link>
             </li>
-            <li>
-              <a
-                href="https://github.com/iCreativate/icreate-launcher"
-                className="hover:text-accent-ink"
-              >
-                GitHub
-              </a>
-            </li>
           </ul>
         </div>
       </div>

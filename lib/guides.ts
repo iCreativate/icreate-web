@@ -24,9 +24,9 @@ export const GUIDES: Guide[] = [
       {
         heading: "Download for your computer",
         paragraphs: [
-          "Open the Download page. It highlights macOS, Windows or Linux from your browser. Grab that build from the latest GitHub release. Apple silicon and Intel Macs share one universal macOS disk image.",
+          "Open the Download page. It highlights macOS, Windows or Linux from your browser. Download that build from this site. Apple silicon and Intel Macs share one universal macOS disk image.",
           "macOS (unsigned until we have an Apple Developer ID): open the .dmg and drag iCreate into Applications. Finder will warn that Apple cannot check it. Control-click iCreate → Open → Open. Or in Terminal: xattr -cr /Applications/iCreate.app && open /Applications/iCreate.app",
-          "Windows (unsigned until we have an Authenticode certificate): run the .msi. If SmartScreen says Windows protected your PC, choose More info → Run anyway only if you downloaded it from the iCreativate GitHub releases page. The installer is per-user; it does not need Administrator.",
+          "Windows (unsigned until we have an Authenticode certificate): run the .msi. If SmartScreen says Windows protected your PC, choose More info → Run anyway only if you downloaded it from the iCreate download page on this site. The installer is per-user; it does not need Administrator.",
           "Linux: chmod +x the AppImage and run it, or sudo apt install ./the.deb. No Apple or Microsoft certificate is involved.",
         ],
       },

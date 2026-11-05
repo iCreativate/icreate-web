@@ -42,7 +42,7 @@ If you deploy from the parent repo, set the Railway service root directory to `i
 | --- | --- |
 | `/` | Home: “Create without limits. No Adobe subscription.” |
 | `/apps` | Catalogue from `apps.json` |
-| `/download` | Detects OS, links latest GitHub release |
+| `/download` | Detects OS; first-party `/api/download/{mac,windows,linux}` installers |
 | `/pricing` | Free and iCreate Pro in rand |
 | `/learn` | Guides (videos when they exist) |
 | `/switching-from-adobe` | Adobe → iCreate map with alpha/beta labels |

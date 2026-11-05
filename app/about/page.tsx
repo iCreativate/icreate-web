@@ -67,7 +67,7 @@ export default function AboutPage() {
         <p className="mt-3 leading-relaxed text-muted">
           icreate.co.za is the public site for the suite. The Apps page reads
           the same <code className="font-mono text-ink">apps.json</code> as the
-          launcher. Downloads point at GitHub releases of the iCreate launcher.
+          launcher. Installers download from this site’s download page.
           Optional Pro billing (rand, PayFast) happens in the desktop app, not
           here.
         </p>
