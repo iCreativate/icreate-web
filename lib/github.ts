@@ -22,22 +22,28 @@ export const PLATFORM_LABEL: Record<Platform, string> = {
 
 function scoreAsset(name: string, platform: Platform) {
   const n = name.toLowerCase();
-  if (n.endsWith(".blockmap") || n.endsWith(".sha256") || n.endsWith(".yml")) {
+  if (n.endsWith(".blockmap") || n.endsWith(".sha256") || n.endsWith(".yml") || n.endsWith(".zsync")) {
     return 0;
   }
+  // Prefer the iCreate-named stem over leftover ArtCraft-named assets.
+  const brandBonus = n.startsWith("icreate-launcher")
+    ? 10
+    : n.startsWith("artcraft-launcher")
+      ? 0
+      : 5;
   if (platform === "mac") {
     if (n.includes("mac") || n.includes("darwin") || n.endsWith(".dmg")) {
-      if (n.includes("universal")) return 5;
-      if (n.includes("arm64") || n.includes("aarch64")) return 4;
-      if (n.endsWith(".dmg")) return 3;
-      return 2;
+      if (n.includes("universal")) return brandBonus + 5;
+      if (n.includes("arm64") || n.includes("aarch64")) return brandBonus + 4;
+      if (n.endsWith(".dmg")) return brandBonus + 3;
+      return brandBonus + 2;
     }
   }
   if (platform === "windows") {
     if (n.includes("win") || n.endsWith(".msi") || n.endsWith(".exe")) {
-      if (n.endsWith(".msi")) return 5;
-      if (n.endsWith(".exe")) return 4;
-      return 2;
+      if (n.endsWith(".msi")) return brandBonus + 5;
+      if (n.endsWith(".exe")) return brandBonus + 4;
+      return brandBonus + 2;
     }
   }
   if (platform === "linux") {
@@ -47,9 +53,9 @@ function scoreAsset(name: string, platform: Platform) {
       n.endsWith(".deb") ||
       n.endsWith(".rpm")
     ) {
-      if (n.endsWith(".appimage")) return 5;
-      if (n.endsWith(".deb")) return 4;
-      return 2;
+      if (n.endsWith(".appimage")) return brandBonus + 5;
+      if (n.endsWith(".deb")) return brandBonus + 4;
+      return brandBonus + 2;
     }
   }
   return 0;

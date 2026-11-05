@@ -16,11 +16,7 @@ type GithubRelease = {
   assets: GithubAsset[];
 };
 
-export async function getLatestRelease(): Promise<LauncherRelease | null> {
-  "use cache";
-  cacheLife("hours");
-  cacheTag("github-release");
-
+async function fetchLatestReleaseFromGitHub(): Promise<LauncherRelease | null> {
   try {
     const res = await fetch(
       `https://api.github.com/repos/${LAUNCHER_REPO}/releases/latest`,
@@ -29,6 +25,8 @@ export async function getLatestRelease(): Promise<LauncherRelease | null> {
           Accept: "application/vnd.github+json",
           "User-Agent": "icreate-web",
         },
+        // Download API must not serve a stale ArtCraft-named asset for hours.
+        cache: "no-store",
       },
     );
     if (!res.ok) return null;
@@ -47,4 +45,17 @@ export async function getLatestRelease(): Promise<LauncherRelease | null> {
   } catch {
     return null;
   }
+}
+
+/** Fresh release metadata — used by `/api/download/*` so renames go live immediately. */
+export async function getLatestReleaseLive(): Promise<LauncherRelease | null> {
+  return fetchLatestReleaseFromGitHub();
+}
+
+/** Cached for the download page UI. */
+export async function getLatestRelease(): Promise<LauncherRelease | null> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("github-release");
+  return fetchLatestReleaseFromGitHub();
 }

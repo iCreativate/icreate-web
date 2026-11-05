@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { pickAsset, type Platform } from "@/lib/github";
-import { getLatestRelease } from "@/lib/github-release";
+import { getLatestReleaseLive } from "@/lib/github-release";
 
 const PLATFORMS = new Set<Platform>(["mac", "windows", "linux"]);
 
@@ -16,7 +16,7 @@ export async function GET(_request: Request, { params }: Params) {
     );
   }
 
-  const release = await getLatestRelease();
+  const release = await getLatestReleaseLive();
   const asset = pickAsset(release, platform);
   if (!asset) {
     return NextResponse.json(
