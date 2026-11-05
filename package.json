@@ -6,8 +6,8 @@
     "sync-apps": "node scripts/sync-apps.mjs",
     "prebuild": "node scripts/sync-apps.mjs",
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "build": "next build && node scripts/prepare-standalone.mjs",
+    "start": "node .next/standalone/server.js",
     "lint": "eslint"
   },
   "dependencies": {
