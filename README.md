@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# iCreate website
 
-## Getting Started
+Public site for [icreate.co.za](https://icreate.co.za): a free creative suite from iCreativate. Next.js App Router, ready to deploy on Railway.
 
-First, run the development server:
+The Apps page is generated from `content/apps.json`, which is copied from `../icreate-launcher/apps.json` on each build when that file is present.
+
+## Local
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run sync-apps   # refresh content/apps.json from the launcher
+npm run build
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Railway
 
-## Learn More
+This folder is the service root. It builds with the included Dockerfile (`output: "standalone"`). Railway injects `PORT`; the server listens on `0.0.0.0`.
 
-To learn more about Next.js, take a look at the following resources:
+From this directory:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+railway up
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Then attach the custom domain `icreate.co.za`. Optional variables:
 
-## Deploy on Vercel
+- `NEXT_PUBLIC_SITE_URL` — default `https://icreate.co.za`
+- `NEXT_PUBLIC_LAUNCHER_REPO` — default `iCreativate/icreate-launcher`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+If you deploy from the parent repo, set the Railway service root directory to `icreate-web`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Pages
+
+| Path | Purpose |
+| --- | --- |
+| `/` | Home: “Create without limits. No Adobe subscription.” |
+| `/apps` | Catalogue from `apps.json` |
+| `/download` | Detects OS, links latest GitHub release |
+| `/pricing` | Free and iCreate Pro in rand |
+| `/learn` | Guides (videos when they exist) |
+| `/switching-from-adobe` | Adobe → iCreate map with alpha/beta labels |
+| `/about` | ArtCraft credit and licences |

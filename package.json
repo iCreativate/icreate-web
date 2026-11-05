@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "sync-apps": "node scripts/sync-apps.mjs",
+    "prebuild": "node scripts/sync-apps.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

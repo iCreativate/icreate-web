@@ -1,26 +1,167 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #0b1220;
+  --sunken: #0f172a;
+  --ink: #e8edf5;
+  --ink-strong: #ffffff;
+  --muted: rgb(232 237 245 / 0.6);
+  --faint: rgb(232 237 245 / 0.38);
+  --line: rgb(14 165 233 / 0.22);
+  --line-strong: rgb(14 165 233 / 0.4);
+  --accent: #0ea5e9;
+  --accent-ink: #38bdf8;
+  --invert-bg: #e8edf5;
+  --invert-fg: #0b1220;
+  --good: #34d399;
+  --warn: #f5b942;
+  --bad: #f87171;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #f4f7fb;
+    --sunken: #e8eef5;
+    --ink: #0f172a;
+    --ink-strong: #020617;
+    --muted: rgb(15 23 42 / 0.62);
+    --faint: rgb(15 23 42 / 0.42);
+    --line: rgb(14 165 233 / 0.19);
+    --line-strong: rgb(14 165 233 / 0.4);
+    --accent: #0ea5e9;
+    --accent-ink: #0369a1;
+    --invert-bg: #0b1220;
+    --invert-fg: #f4f7fb;
+    --good: #047857;
+    --warn: #b45309;
+    --bad: #b91c1c;
   }
 }
 
+@theme inline {
+  --color-bg: var(--bg);
+  --color-sunken: var(--sunken);
+  --color-ink: var(--ink);
+  --color-ink-strong: var(--ink-strong);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-invert-bg: var(--invert-bg);
+  --color-invert-fg: var(--invert-fg);
+  --color-good: var(--good);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+  --font-sans: var(--font-dm), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-source), ui-monospace, monospace;
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(1200px 500px at 10% -10%, rgb(14 165 233 / 0.16), transparent 55%),
+    radial-gradient(800px 400px at 100% 0%, rgb(56 189 248 / 0.08), transparent 50%),
+    var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.55rem;
+  background: var(--accent);
+  color: #042436;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.55rem 1rem;
+  transition: filter 120ms ease;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.55rem;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.55rem 1rem;
+}
+
+.btn-ghost:hover {
+  background: var(--sunken);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  padding: 0.1rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badge-alpha {
+  color: var(--warn);
+  border-color: color-mix(in srgb, var(--warn) 45%, transparent);
+}
+
+.badge-beta {
+  color: var(--accent-ink);
+  border-color: var(--line-strong);
+}
+
+.badge-stable {
+  color: var(--good);
+  border-color: color-mix(in srgb, var(--good) 45%, transparent);
+}
+
+.badge-none {
+  color: var(--faint);
+}
+
+.badge-planned {
+  color: var(--faint);
+  border-color: color-mix(in srgb, var(--faint) 45%, transparent);
+}
+
+.badge-research {
+  color: var(--muted);
+  border-color: color-mix(in srgb, var(--muted) 40%, transparent);
+}
+
+.prose-icreate p + p {
+  margin-top: 0.85rem;
 }

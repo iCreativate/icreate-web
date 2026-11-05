@@ -1,0 +1,70 @@
+export type Platform = "mac" | "windows" | "linux";
+
+export type ReleaseAsset = {
+  name: string;
+  url: string;
+  size: number;
+};
+
+export type LauncherRelease = {
+  tag: string;
+  name: string;
+  publishedAt: string | null;
+  htmlUrl: string;
+  assets: ReleaseAsset[];
+};
+
+export const PLATFORM_LABEL: Record<Platform, string> = {
+  mac: "macOS",
+  windows: "Windows",
+  linux: "Linux",
+};
+
+function scoreAsset(name: string, platform: Platform) {
+  const n = name.toLowerCase();
+  if (n.endsWith(".blockmap") || n.endsWith(".sha256") || n.endsWith(".yml")) {
+    return 0;
+  }
+  if (platform === "mac") {
+    if (n.includes("mac") || n.includes("darwin") || n.endsWith(".dmg")) {
+      if (n.includes("universal")) return 5;
+      if (n.includes("arm64") || n.includes("aarch64")) return 4;
+      if (n.endsWith(".dmg")) return 3;
+      return 2;
+    }
+  }
+  if (platform === "windows") {
+    if (n.includes("win") || n.endsWith(".msi") || n.endsWith(".exe")) {
+      if (n.endsWith(".msi")) return 5;
+      if (n.endsWith(".exe")) return 4;
+      return 2;
+    }
+  }
+  if (platform === "linux") {
+    if (
+      n.includes("linux") ||
+      n.endsWith(".appimage") ||
+      n.endsWith(".deb") ||
+      n.endsWith(".rpm")
+    ) {
+      if (n.endsWith(".appimage")) return 5;
+      if (n.endsWith(".deb")) return 4;
+      return 2;
+    }
+  }
+  return 0;
+}
+
+export function pickAsset(release: LauncherRelease | null, platform: Platform) {
+  if (!release) return null;
+  let best: ReleaseAsset | null = null;
+  let bestScore = 0;
+  for (const asset of release.assets) {
+    const score = scoreAsset(asset.name, platform);
+    if (score > bestScore) {
+      best = asset;
+      bestScore = score;
+    }
+  }
+  return best;
+}
